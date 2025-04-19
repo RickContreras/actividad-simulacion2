@@ -580,12 +580,114 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
    </details>
    <br>
 
-6. One question that arises in scheduling is which end of a queue to add a job that just finished I/O; the -I flag changes this behavior
-for this scheduling simulator. Play around with some workloads and see if you can see the effect of this flag.
+### 6️⃣ Efecto de la posición después de I/O
 
    <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
+   <summary>Solución</summary>
+
+   > **Objetivo**: Investigar el efecto de cambiar la posición donde se añaden los trabajos que acaban de terminar operaciones de I/O.
+
+   **Comando utilizado:**
+   ```bash
+   python3 mlfq.py --jlist 0,50,10:10,50,10 -n 2 -q 10 -I
+   ```
+
+   **Parámetros:**
+   - `--jlist 0,50,10:10,50,10`: Define dos trabajos específicos:
+   - Job 0: comienza en tiempo 0, necesita 50ms de CPU, realiza I/O cada 10ms
+   - Job 1: comienza en tiempo 10, necesita 50ms de CPU, realiza I/O cada 10ms
+   - `-n 2`: 2 colas
+   - `-q 10`: Quantum de 10ms para todas las colas
+   - `-I`: Los trabajos que terminan I/O se colocan al frente de la cola
+
+   <details>
+   <summary><b>Ver detalles de la configuración y trabajos</b></summary>
+
+   <table>
+   <tr>
+      <th colspan="2">Configuración del Simulador</th>
+   </tr>
+   <tr>
+      <td>Trabajos</td>
+      <td>2</td>
+   </tr>
+   <tr>
+      <td>Colas</td>
+      <td>2</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 1</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 1</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 0</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 0</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Boost</td>
+      <td>0 (desactivado)</td>
+   </tr>
+   <tr>
+      <td>Tiempo de I/O</td>
+      <td>5ms</td>
+   </tr>
+   <tr>
+      <td>Mantener prioridad después de I/O</td>
+      <td>No</td>
+   </tr>
+   <tr>
+      <td>Priorizar trabajos que terminan I/O</td>
+      <td>Sí</td>
+   </tr>
+   </table>
+
+   <table>
+   <tr>
+      <th colspan="4">Lista de Trabajos</th>
+   </tr>
+   <tr>
+      <th>Trabajo</th>
+      <th>Tiempo de inicio</th>
+      <th>Tiempo de ejecución</th>
+      <th>Frecuencia I/O</th>
+   </tr>
+   <tr>
+      <td>Job 0</td>
+      <td>0</td>
+      <td>50ms</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Job 1</td>
+      <td>10</td>
+      <td>50ms</td>
+      <td>10ms</td>
+   </tr>
+   </table>
+   </details>
+
+   **Análisis:**
+
+   La bandera `-I` (iobump) modifica significativamente el comportamiento del planificador al dar preferencia a los trabajos que terminan operaciones de I/O:
+
+   1. Normalmente, los trabajos que completan I/O se colocan al final de su cola actual
+   2. Con `-I` activado, estos trabajos se colocan al frente de su cola
+   3. Este cambio beneficia a procesos que realizan I/O frecuentemente:
+      - Se les da servicio más rápidamente después de cada operación de I/O
+      - Se genera un comportamiento de "ping-pong" entre trabajos con I/O frecuente
+      - Mejora la interactividad percibida del sistema
+
+   Este parámetro es especialmente útil para sistemas interactivos donde la respuesta rápida a eventos de I/O (como entrada de teclado, mouse o interfaces de red) es más importante que la eficiencia global.
+
+   ![I/O Priority](https://img.shields.io/badge/I/O_Priority-Enhanced_Interactivity-purple?style=flat-square&logo=input-output)
    </details>
    <br>
 
