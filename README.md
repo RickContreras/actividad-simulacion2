@@ -131,11 +131,118 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
    </details>
    <br>
 
-2. How would you run the scheduler to reproduce each of the examples in the chapter?
-   
+### 2️⃣ Reproducción de ejemplos del capítulo
    <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
+   <summary>Solución</summary>
+   
+   > **Objetivo**: Configurar el simulador para reproducir ejemplos específicos del capítulo sobre MLFQ.
+
+   **Comando utilizado:**
+   ```bash
+   python3 mlfq.py --jlist 0,180,0:100,20,0 -q 10
+   ```
+
+   **Parámetros:**
+   - `--jlist 0,180,0:100,20,0`: Define dos trabajos específicos:
+   - Job 0: comienza en tiempo 0, necesita 180ms de CPU, sin I/O
+   - Job 1: comienza en tiempo 100, necesita 20ms de CPU, sin I/O
+   - `-q 10`: Quantum de 10ms para todas las colas
+
+   <details>
+   <summary><b>Ver detalles de la configuración y trabajos</b></summary>
+
+   <table>
+   <tr>
+      <th colspan="2">Configuración del Simulador</th>
+   </tr>
+   <tr>
+      <td>Trabajos</td>
+      <td>2</td>
+   </tr>
+   <tr>
+      <td>Colas</td>
+      <td>3</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 2</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 2</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 1</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 1</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 0</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 0</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Boost</td>
+      <td>0 (desactivado)</td>
+   </tr>
+   <tr>
+      <td>Tiempo de I/O</td>
+      <td>5ms</td>
+   </tr>
+   <tr>
+      <td>Mantener prioridad después de I/O</td>
+      <td>No</td>
+   </tr>
+   <tr>
+      <td>Priorizar trabajos que terminan I/O</td>
+      <td>No</td>
+   </tr>
+   </table>
+
+   <table>
+   <tr>
+      <th colspan="4">Lista de Trabajos</th>
+   </tr>
+   <tr>
+      <th>Trabajo</th>
+      <th>Tiempo de inicio</th>
+      <th>Tiempo de ejecución</th>
+      <th>Frecuencia I/O</th>
+   </tr>
+   <tr>
+      <td>Job 0</td>
+      <td>0</td>
+      <td>180ms</td>
+      <td>0 (sin I/O)</td>
+   </tr>
+   <tr>
+      <td>Job 1</td>
+      <td>100</td>
+      <td>20ms</td>
+      <td>0 (sin I/O)</td>
+   </tr>
+   </table>
+   </details>
+
+   **Análisis:**
+
+   Esta configuración reproduce un escenario similar al de la Figura 8.3 del capítulo sobre MLFQ. La simulación demuestra la capacidad del algoritmo para priorizar trabajos cortos recién llegados:
+
+   1. Job 0 se inicia en t=0 y comienza a ejecutarse en la cola de mayor prioridad
+   2. Después de consumir su quantum (10ms), Job 0 desciende a la siguiente cola
+   3. Job 0 continúa ejecutándose, bajando de prioridad con cada quantum consumido
+   4. Cuando Job 1 ingresa al sistema en t=100:
+      - Obtiene la mayor prioridad (cola 2)
+      - Preempta a Job 0 (que estará en una cola inferior)
+      - Se ejecuta completamente (20ms) antes de que Job 0 pueda continuar
+
+   Este comportamiento resalta la capacidad de MLFQ para favorecer procesos interactivos o de corta duración, mejorando la experiencia del usuario.
    </details>
    <br>
 
