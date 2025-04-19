@@ -246,11 +246,106 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
    </details>
    <br>
 
-3. How would you configure the scheduler parameters to behave just like a round-robin scheduler?
+### 3️⃣ Configuración como Round-Robin
+   <details>
+   <summary>Solución</summary>
+   
+   > **Objetivo**: Configurar el planificador MLFQ para que se comporte exactamente como un planificador Round-Robin.
+
+   **Comando utilizado:**
+   ```bash
+   python3 mlfq.py -n 1 -q 10
+   ```
+
+   **Parámetros:**
+   - `-n 1`: Una sola cola
+   - `-q 10`: Quantum de 10ms
 
    <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
+   <summary><b>Ver detalles de la configuración y trabajos</b></summary>
+
+   <table>
+   <tr>
+      <th colspan="2">Configuración del Simulador</th>
+   </tr>
+   <tr>
+      <td>Trabajos</td>
+      <td>3</td>
+   </tr>
+   <tr>
+      <td>Colas</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 0</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 0</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Boost</td>
+      <td>0 (desactivado)</td>
+   </tr>
+   <tr>
+      <td>Tiempo de I/O</td>
+      <td>5ms</td>
+   </tr>
+   <tr>
+      <td>Mantener prioridad después de I/O</td>
+      <td>No</td>
+   </tr>
+   <tr>
+      <td>Priorizar trabajos que terminan I/O</td>
+      <td>No</td>
+   </tr>
+   </table>
+
+   <table>
+   <tr>
+      <th colspan="4">Lista de Trabajos</th>
+   </tr>
+   <tr>
+      <th>Trabajo</th>
+      <th>Tiempo de inicio</th>
+      <th>Tiempo de ejecución</th>
+      <th>Frecuencia I/O</th>
+   </tr>
+   <tr>
+      <td>Job 0</td>
+      <td>0</td>
+      <td>84ms</td>
+      <td>7ms</td>
+   </tr>
+   <tr>
+      <td>Job 1</td>
+      <td>0</td>
+      <td>42ms</td>
+      <td>3ms</td>
+   </tr>
+   <tr>
+      <td>Job 2</td>
+      <td>0</td>
+      <td>51ms</td>
+      <td>4ms</td>
+   </tr>
+   </table>
+   </details>
+
+   **Análisis:**
+
+   Para convertir el MLFQ en un planificador Round-Robin puro, simplemente configuramos el sistema con una única cola:
+
+   1. Al eliminar la estructura multinivel, todos los trabajos permanecen siempre en la misma cola
+   2. Con un quantum de 10ms, el planificador alterna cíclicamente entre los tres trabajos
+   3. La secuencia de ejecución sigue el patrón: Job 0 → Job 1 → Job 2 → Job 0 → ...
+   4. Las operaciones de I/O interrumpen este ciclo, pero una vez que un trabajo finaliza su I/O, vuelve a la única cola existente
+
+   Este ejemplo demuestra la flexibilidad del MLFQ: con la configuración adecuada, puede comportarse como otros algoritmos de planificación más simples.
+
+   ![Round Robin](https://img.shields.io/badge/Round_Robin-Simulation-brightgreen?style=flat-square&logo=clockify)
+
    </details>
    <br>
 
