@@ -693,7 +693,23 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
 
 ## 💡 Conclusiones
 
-Coloque aqui las conclusiones...
+Tras analizar los resultados de las diversas simulaciones realizadas con el planificador MLFQ, podemos destacar las siguientes conclusiones:
+
+1. **🔄 Flexibilidad adaptativa**: MLFQ demuestra una notable capacidad para adaptarse a diferentes cargas de trabajo. Puede configurarse para comportarse como un planificador Round-Robin simple o implementar un sofisticado sistema de prioridades dinámicas que favorece trabajos cortos e interactivos.
+
+2. **⚖️ Balance entre equidad y rendimiento**: El algoritmo busca un equilibrio eficaz entre ser justo con todos los procesos y optimizar el rendimiento del sistema, favoreciendo ciertos tipos de trabajos sin penalizar excesivamente a otros.
+
+3. **🛡️ Prevención de inanición**: El mecanismo de boost periódico es fundamental para garantizar que todos los procesos reciban una parte mínima del tiempo de CPU, previniendo la inanición de procesos de larga duración.
+
+4. **🔒 Seguridad mejorada**: Las vulnerabilidades del diseño original (reglas 4a y 4b) han sido corregidas en implementaciones modernas, evitando que procesos maliciosos puedan manipular el planificador para obtener recursos desproporcionados.
+
+5. **⚡ Gestión optimizada de I/O**: La estrategia para manejar procesos que completan operaciones de I/O tiene un impacto significativo en la interactividad del sistema. La colocación de estos procesos al frente de sus colas respectivas mejora la capacidad de respuesta percibida.
+
+6. **🧩 Ajuste preciso**: Los parámetros del planificador (quantum, número de colas, frecuencia de boost, etc.) pueden ajustarse con precisión para optimizar el comportamiento del sistema según las necesidades específicas de cada entorno.
+
+7. **📊 Versatilidad comprobada**: La amplia adopción de algoritmos basados en MLFQ en sistemas operativos modernos confirma su versatilidad y efectividad para gestionar eficientemente una amplia variedad de cargas de trabajo.
+
+Estas simulaciones demuestran que MLFQ es un algoritmo de planificación robusto, adaptable y eficiente, capaz de ofrecer un buen rendimiento en entornos de computación complejos y diversos.
 
 ## 📚 Referencias
 
