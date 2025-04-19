@@ -29,8 +29,54 @@ Esta actividad presenta los resultados de simulaciones utilizando el programa `m
 
 El planificador MLFQ es ampliamente utilizado en sistemas operativos modernos debido a su capacidad para balancear eficiencia y equidad, favoreciendo a procesos interactivos sin penalizar excesivamente a los procesos por lotes. Las simulaciones realizadas nos permiten visualizar y comprender el comportamiento práctico de los conceptos teóricos estudiados sobre este algoritmo.
 
-This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler presented in this chapter behaves. See the [README](https://github.com/remzi-arpacidusseau/ostep-homework/blob/master/cpu-sched-mlfq/README.md) for details.
+   <details>
+   <summary> ⚙️ Instalación y Configuración </summary>
 
+   ### 1️⃣ Requisitos previos
+   Asegúrate de tener instalado:
+   - **Python 3.12.1** o superior
+   - **pip 25.0.1** o superior (Opcional)
+
+   Verifica las versiones instaladas ejecutando:
+   ```bash
+   python3 --version
+   pip3 --version
+   ```
+
+   ### 2️⃣ Clonar el repositorio
+
+   Clona este repositorio en tu máquina local:
+   ```bash
+   git clone https://github.com/RickContreras/mlfq-scheduler-simulation
+   cd mlfq-scheduler-simulation
+   ```
+
+   ### 3️⃣ Ejecutar el simulador
+
+   Ejecuta el simulador con el siguiente comando:
+
+   ```bash
+   python3 mlfq.py [opciones]
+   ```
+
+   ### 4️⃣ Opciones comunes
+
+   Algunas opciones útiles para el simulador:
+
+   - `-j`: Número de trabajos.
+   - `-n`: Número de colas.
+   - `-q`: Quantum para cada cola.
+   - `-B`: Intervalo de boost (en ms).
+   - `-I`: Priorizar trabajos que terminan I/O.
+
+   Consulta la ayuda completa con:
+
+   ```bash
+   python3 mlfq.py --help
+   ```
+
+   </details>
+   <br>
 
 ## 🔬 Simulaciones y Respuestas
 
@@ -138,8 +184,6 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
       - Regresa a Job 0 para finalizar los 7ms restantes
 
    Esta simulación ilustra el principio básico de funcionamiento del MLFQ: penalizar a los trabajos intensivos en CPU bajándolos de prioridad y favorecer a los trabajos más cortos.
-
-   
    </details>
    <br>
 
@@ -357,7 +401,6 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
    Este ejemplo demuestra la flexibilidad del MLFQ: con la configuración adecuada, puede comportarse como otros algoritmos de planificación más simples.
 
    ![Round Robin](https://img.shields.io/badge/Round_Robin-Simulation-brightgreen?style=flat-square&logo=clockify)
-
    </details>
    <br>
 
