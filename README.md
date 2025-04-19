@@ -7,7 +7,19 @@
 |Integrante|Correo|Usuario GitHub|
 |---|---|---|
 | Ricardo Contreras Garzón | ricardo.contreras1@udea.edu.co | [RickContreras](https://github.com/RickContreras) |
-| Santiago Arenas Gómez | santiago.arenas1@udea.edu.co |[Sag0719](https://github.com/Sag0719)|
+| Santiago Arenas Gómez | santiago.arenas1@udea.edu.co |[Sag0719](https://github.com/Sag0719)
+
+## 📋 Índice
+- [📚 Introducción](#-introducción)
+- [🔬 Simulaciones y Respuestas](#-simulaciones-y-respuestas)
+  - [1️⃣ Ejecución con 2 trabajos y 2 colas sin I/O](#1️⃣-ejecución-con-2-trabajos-2-colas-y-sin-io)
+  - [2️⃣ Reproducción de ejemplos del capítulo](#2️⃣-reproducción-de-ejemplos-del-capítulo)
+  - [3️⃣ Configuración como Round-Robin](#3️⃣-configuración-como-round-robin)
+  - [4️⃣ Aprovechamiento de reglas 4a y 4b](#4️⃣-aprovechamiento-de-reglas-4a-y-4b)
+  - [5️⃣ Prioridad mínima garantizada y Boost](#5️⃣-prioridad-mínima-garantizada-y-boost)
+  - [6️⃣ Efecto de la posición después de I/O](#6️⃣-efecto-de-la-posición-después-de-io)
+- [💡 Conclusiones](#-conclusiones)
+- [📚 Referencias](#-referencias)
 
 ## 📚 Introducción
 
