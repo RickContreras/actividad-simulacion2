@@ -249,7 +249,7 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
 ### 3️⃣ Configuración como Round-Robin
    <details>
    <summary>Solución</summary>
-   
+
    > **Objetivo**: Configurar el planificador MLFQ para que se comporte exactamente como un planificador Round-Robin.
 
    **Comando utilizado:**
@@ -349,12 +349,112 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
    </details>
    <br>
 
-4. Craft a workload with two jobs and scheduler parameters so that one job takes advantage of the older Rules 4a and 4b (turned on
-with the -S flag) to game the scheduler and obtain 99% of the CPU over a particular time interval.
+### 4️⃣ Aprovechamiento de reglas 4a y 4b
 
    <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
+   <summary>Solución</summary>
+
+   > **Objetivo**: Crear una carga de trabajo que aproveche las reglas antiguas 4a y 4b para "engañar" al planificador y obtener casi todo el tiempo de CPU.
+
+   **Comando utilizado:**
+   ```bash
+   python3 mlfq.py --jlist 0,100,10:0,100,0 -n 2 -q 10 -S
+   ```
+
+   **Parámetros:**
+   - `--jlist 0,100,10:0,100,0`: Define dos trabajos específicos:
+   - Job 0: comienza en tiempo 0, necesita 100ms de CPU, realiza I/O cada 10ms
+   - Job 1: comienza en tiempo 0, necesita 100ms de CPU, sin I/O
+   - `-n 2`: 2 colas
+   - `-q 10`: Quantum de 10ms para todas las colas
+   - `-S`: Activa las reglas 4a y 4b (mantiene el trabajo en la misma cola después de I/O)
+
+   <details>
+   <summary><b>Ver detalles de la configuración y trabajos</b></summary>
+
+   <table>
+   <tr>
+      <th colspan="2">Configuración del Simulador</th>
+   </tr>
+   <tr>
+      <td>Trabajos</td>
+      <td>2</td>
+   </tr>
+   <tr>
+      <td>Colas</td>
+      <td>2</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 1</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 1</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 0</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 0</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Boost</td>
+      <td>0 (desactivado)</td>
+   </tr>
+   <tr>
+      <td>Tiempo de I/O</td>
+      <td>5ms</td>
+   </tr>
+   <tr>
+      <td>Mantener prioridad después de I/O</td>
+      <td>Sí</td>
+   </tr>
+   <tr>
+      <td>Priorizar trabajos que terminan I/O</td>
+      <td>No</td>
+   </tr>
+   </table>
+
+   <table>
+   <tr>
+      <th colspan="4">Lista de Trabajos</th>
+   </tr>
+   <tr>
+      <th>Trabajo</th>
+      <th>Tiempo de inicio</th>
+      <th>Tiempo de ejecución</th>
+      <th>Frecuencia I/O</th>
+   </tr>
+   <tr>
+      <td>Job 0</td>
+      <td>0</td>
+      <td>100ms</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Job 1</td>
+      <td>0</td>
+      <td>100ms</td>
+      <td>0 (sin I/O)</td>
+   </tr>
+   </table>
+   </details>
+
+   **Análisis:**
+
+   Esta simulación expone una vulnerabilidad en la implementación original del MLFQ (reglas 4a y 4b) que permite a un trabajo astuto "engañar" al planificador:
+
+   1. Job 0 realiza I/O estratégicamente cada 10ms (justo antes de agotar su quantum)
+   2. Con la bandera `-S` activada, Job 0 permanece en la cola de mayor prioridad después de cada I/O
+   3. Mientras tanto, Job 1 agota su quantum completo y desciende a la cola de menor prioridad
+   4. Como resultado, Job 0 obtiene ≈99% del tiempo de CPU, ya que siempre tiene mayor prioridad
+
+   Este comportamiento abusivo ilustra por qué las reglas del MLFQ fueron modificadas posteriormente en implementaciones modernas: para evitar que procesos maliciosos o mal diseñados monopolicen los recursos del sistema.
+
+   ![Gaming the Scheduler](https://img.shields.io/badge/Gaming_the_Scheduler-Detected-red?style=flat-square&logo=gamepad)
    </details>
    <br>
 
