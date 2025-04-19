@@ -458,11 +458,125 @@ This program, [mlfq.py](mlfq.py), allows you to see how the MLFQ scheduler prese
    </details>
    <br>
 
-5. Given a system with a quantum length of 10 ms in its highest queue, how often would you have to boost jobs back to the highest priority level (with the `-B` flag) in order to guarantee that a single longrunning (and potentially-starving) job gets at least 5% of the CPU?
+### 5️⃣ Prioridad mínima garantizada y Boost
 
    <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
+   <summary>Solución</summary>
+
+   > **Objetivo**: Determinar la frecuencia de boost necesaria para garantizar que un trabajo de larga duración obtenga al menos el 5% del CPU.
+
+   **Comando utilizado:**
+   ```bash
+   python3 mlfq.py -n 3 -q 10 -B 200
+   ```
+
+   **Parámetros:**
+   - `-n 3`: 3 colas
+   - `-q 10`: Quantum de 10ms para todas las colas
+   - `-B 200`: Boost cada 200ms (restablece todos los trabajos a la cola de mayor prioridad)
+
+   <details>
+   <summary><b>Ver detalles de la configuración y trabajos</b></summary>
+
+   <table>
+   <tr>
+      <th colspan="2">Configuración del Simulador</th>
+   </tr>
+   <tr>
+      <td>Trabajos</td>
+      <td>3</td>
+   </tr>
+   <tr>
+      <td>Colas</td>
+      <td>3</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 2</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 2</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 1</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 1</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Asignación para cola 0</td>
+      <td>1</td>
+   </tr>
+   <tr>
+      <td>Quantum para cola 0</td>
+      <td>10ms</td>
+   </tr>
+   <tr>
+      <td>Boost</td>
+      <td>200</td>
+   </tr>
+   <tr>
+      <td>Tiempo de I/O</td>
+      <td>5ms</td>
+   </tr>
+   <tr>
+      <td>Mantener prioridad después de I/O</td>
+      <td>No</td>
+   </tr>
+   <tr>
+      <td>Priorizar trabajos que terminan I/O</td>
+      <td>No</td>
+   </tr>
+   </table>
+
+   <table>
+   <tr>
+      <th colspan="4">Lista de Trabajos</th>
+   </tr>
+   <tr>
+      <th>Trabajo</th>
+      <th>Tiempo de inicio</th>
+      <th>Tiempo de ejecución</th>
+      <th>Frecuencia I/O</th>
+   </tr>
+   <tr>
+      <td>Job 0</td>
+      <td>0</td>
+      <td>84ms</td>
+      <td>7ms</td>
+   </tr>
+   <tr>
+      <td>Job 1</td>
+      <td>0</td>
+      <td>42ms</td>
+      <td>3ms</td>
+   </tr>
+   <tr>
+      <td>Job 2</td>
+      <td>0</td>
+      <td>51ms</td>
+      <td>4ms</td>
+   </tr>
+   </table>
+   </details>
+
+   **Análisis:**
+
+   Para prevenir la inanición de procesos de larga duración, el mecanismo de boost periódico es esencial:
+
+   1. Con un quantum de 10ms en la cola más alta y un requisito de 5% del CPU para cualquier trabajo:
+      - Necesitamos que el proceso obtenga al menos 10ms cada 200ms (10/200 = 5%)
+   2. Configurando el boost cada 200ms (`-B 200`), garantizamos que:
+      - Todos los trabajos son elevados a la cola más alta periódicamente
+      - Cada trabajo tendrá la oportunidad de ejecutar al menos un quantum completo
+      - Ningún trabajo puede sufrir inanición indefinida
+
+   Este mecanismo proporciona una garantía de servicio mínimo para todos los procesos, independientemente de su comportamiento o tipo, lo que es crucial para la estabilidad del sistema.
+
+   ![Priority Boost](https://img.shields.io/badge/Priority_Boost-Anti--Starvation-blue?style=flat-square&logo=arrow-up)
    </details>
    <br>
 
